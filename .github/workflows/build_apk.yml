@@ -1,0 +1,94 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    name: Build Godot 4.3 Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android Build Tools
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "build-tools;34.0.0" "platforms;android-34" "platform-tools"
+
+      - name: Generate Android Debug Keystore
+        run: |
+          mkdir -p ~/.android
+          keytool -keyalg RSA -genkeypair -alias androiddebugkey -keypass android -keystore ~/.android/debug.keystore -storepass android -dname "CN=Android Debug,O=Android,C=US" -validity 9999 -deststoretype pkcs12
+
+      - name: Download Godot Engine 4.3 Stable
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q Godot_v4.3-stable_linux.x86_64.zip
+          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          sudo chmod +x /usr/local/bin/godot
+          godot --version
+
+      - name: Download Godot 4.3 Export Templates
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+          mkdir -p /tmp/templates
+          unzip -q Godot_v4.3-stable_export_templates.tpz -d /tmp/templates
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.3.stable/
+          rm -rf /tmp/templates Godot_v4.3-stable_export_templates.tpz
+
+      - name: Configure Godot Editor Settings
+        run: |
+          mkdir -p ~/.config/godot
+          cat <<EOF > ~/.config/godot/editor_settings-4.tres
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_HOME"
+          export/android/debug_keystore = "$HOME/.android/debug.keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_password = "android"
+          export/android/force_system_user = false
+          export/android/shutdown_adb_on_exit = true
+          EOF
+
+      - name: Import Godot Project Cache
+        run: |
+          godot --headless --editor --quit
+
+      - name: Run Automated Game Logic Tests
+        run: |
+          godot --headless --path . -s tests/run_tests.gd
+
+      - name: Export Android Debug APK
+        run: |
+          mkdir -p builds
+          godot --headless --path . --export-debug "Android Debug" builds/NumberMergePuzzle-debug.apk
+
+      - name: Verify APK Generated
+        run: |
+          ls -lh builds/NumberMergePuzzle-debug.apk
+
+      - name: Upload APK to GitHub Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: NumberMergePuzzle-debug-apk
+          path: builds/NumberMergePuzzle-debug.apk
+          if-no-files-found: error
+          retention-days: 14
