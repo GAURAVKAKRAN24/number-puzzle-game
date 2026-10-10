@@ -81,8 +81,21 @@ jobs:
           mkdir -p builds
           godot --headless --path . --export-debug "Android Debug" builds/NumberMergePuzzle-debug.apk
 
-      - name: Verify APK Generated
+      - name: Sign and Verify APK with apksigner
         run: |
+          BUILD_TOOLS_DIR=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -n 1)
+          echo "Using Android Build Tools at: $BUILD_TOOLS_DIR"
+          $BUILD_TOOLS_DIR/apksigner sign \
+            --ks ~/.android/debug.keystore \
+            --ks-pass pass:android \
+            --ks-key-alias androiddebugkey \
+            --key-pass pass:android \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            builds/NumberMergePuzzle-debug.apk
+          echo "--- Verifying APK signatures ---"
+          $BUILD_TOOLS_DIR/apksigner verify --verbose builds/NumberMergePuzzle-debug.apk
           ls -lh builds/NumberMergePuzzle-debug.apk
 
       - name: Upload APK to GitHub Artifacts
