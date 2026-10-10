@@ -29,7 +29,7 @@ jobs:
       - name: Install Android Build Tools
         run: |
           yes | sdkmanager --licenses || true
-          sdkmanager --install "build-tools;34.0.0" "platforms;android-34" "platform-tools"
+          sdkmanager --install "tools" "build-tools;34.0.0" "platforms;android-34" "platform-tools" || true
 
       - name: Generate Android Debug Keystore
         run: |
