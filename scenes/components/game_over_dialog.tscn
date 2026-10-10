@@ -1,0 +1,148 @@
+[gd_scene load_steps=6 format=3 uid="uid://co52p8v25w8j2"]
+
+[ext_resource type="Script" path="res://scripts/game_over_dialog.gd" id="1_god"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0, 0, 0, 0.745098)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.121569, 0.14902, 0.219608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_left = 24
+corner_radius_bottom_right = 24
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 20
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_play_again"]
+bg_color = Color(0.231373, 0.52549, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_revive"]
+bg_color = Color(0.984314, 0.639216, 0.0666667, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+
+[node name="GameOverDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_god")
+
+[node name="Overlay" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+custom_minimum_size = Vector2(560, 560)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 35.0
+offset_right = -40.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.45, 1)
+theme_override_font_sizes/font_size = 36
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ScoreContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="FinalScoreCard" type="VBoxContainer" parent="CenterContainer/Panel/VBox/ScoreContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBox/ScoreContainer/FinalScoreCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 18
+text = "SCORE"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="CenterContainer/Panel/VBox/ScoreContainer/FinalScoreCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+
+[node name="BestScoreCard" type="VBoxContainer" parent="CenterContainer/Panel/VBox/ScoreContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBox/ScoreContainer/BestScoreCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 18
+text = "BEST"
+horizontal_alignment = 1
+
+[node name="BestScore" type="Label" parent="CenterContainer/Panel/VBox/ScoreContainer/BestScoreCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="SecondChanceBtn" type="Button" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_revive")
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Watch Ad: Clear 3 Tiles"
+
+[node name="PlayAgainBtn" type="Button" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_play_again")
+theme_override_font_sizes/font_size = 24
+text = "Play Again"
+
+[node name="HomeBtn" type="Button" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Main Menu"

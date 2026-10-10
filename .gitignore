@@ -1,0 +1,25 @@
+# Godot 4.x gitignore
+.godot/
+*.translation
+
+# Android build outputs & keystores
+*.apk
+*.aab
+*.keystore
+*.jks
+debug.keystore
+release.keystore
+secrets.json
+local.properties
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*~
+.vscode/
+.idea/
+
+# Windows
+desktop.ini

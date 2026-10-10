@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6l8vxnd0i7u1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cell"]
+bg_color = Color(0.141176, 0.172549, 0.258824, 0.784314)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+
+[node name="BoardCell" type="Panel"]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 100.0
+offset_bottom = 100.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")

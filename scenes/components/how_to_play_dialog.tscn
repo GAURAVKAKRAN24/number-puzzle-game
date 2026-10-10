@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwh1x8j5kn3qy"]
+
+[ext_resource type="Script" path="res://scripts/how_to_play_dialog.gd" id="1_htp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0, 0, 0, 0.705882)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.121569, 0.14902, 0.219608, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_left = 24
+corner_radius_bottom_right = 24
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.231373, 0.52549, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_left = 14
+corner_radius_bottom_right = 14
+
+[node name="HowToPlayDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_htp")
+
+[node name="Overlay" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+custom_minimum_size = Vector2(600, 680)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 35.0
+offset_right = -40.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+
+[node name="Rule1" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "1. Connect Matching Tiles
+Drag across 2 or more adjacent tiles with the exact same number."
+autowrap_mode = 3
+
+[node name="Rule2" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "2. Orthogonal Moves Only
+You can connect horizontally or vertically. Diagonal connections are NOT allowed."
+autowrap_mode = 3
+
+[node name="Rule3" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "3. Deterministic Merging
+Tiles merge into the last tile you touched! Two 2s become a 4, two 4s become an 8, and longer chains double even higher!"
+autowrap_mode = 3
+
+[node name="Rule4" type="Label" parent="CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "4. Keep Space on the Board
+New tiles spawn after every merge. If the 5x5 board fills with no matches left, the game is over!"
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CloseBtn" type="Button" parent="CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+theme_override_font_sizes/font_size = 24
+text = "Got It!"

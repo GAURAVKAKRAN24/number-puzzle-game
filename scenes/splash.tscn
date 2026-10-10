@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3 uid="uid://b23k1v9pqx8r4"]
+
+[ext_resource type="Script" path="res://scripts/splash.gd" id="1_spl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0666667, 0.0823529, 0.117647, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icon"]
+bg_color = Color(0.231373, 0.52549, 1, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_left = 32
+corner_radius_bottom_right = 32
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 16
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inner"]
+bg_color = Color(0.968627, 0.145098, 0.521569, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+
+[node name="Splash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_spl")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="IconBox" type="CenterContainer" parent="Center/VBox"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Center/VBox/IconBox"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_icon")
+
+[node name="Label" type="Label" parent="Center/VBox/IconBox/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 54
+text = "2048"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 38
+text = "Number Merge"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Puzzle Challenge"
+horizontal_alignment = 1

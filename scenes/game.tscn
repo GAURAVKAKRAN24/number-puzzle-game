@@ -1,0 +1,245 @@
+[gd_scene load_steps=10 format=3 uid="uid://bvy6qm4p70nkw"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_gm"]
+[ext_resource type="PackedScene" uid="uid://dmv7o2rkg56ab" path="res://scenes/components/pause_dialog.tscn" id="2_pd"]
+[ext_resource type="PackedScene" uid="uid://cpxw18q56y2ma" path="res://scenes/components/confirmation_dialog.tscn" id="3_cd"]
+[ext_resource type="PackedScene" uid="uid://bwh1x8j5kn3qy" path="res://scenes/components/how_to_play_dialog.tscn" id="4_hpd"]
+[ext_resource type="PackedScene" uid="uid://co52p8v25w8j2" path="res://scenes/components/game_over_dialog.tscn" id="5_god"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.0666667, 0.0823529, 0.117647, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.121569, 0.14902, 0.219608, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board"]
+bg_color = Color(0.101961, 0.12549, 0.180392, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_left = 24
+corner_radius_bottom_right = 24
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_milestone"]
+bg_color = Color(0.968627, 0.145098, 0.521569, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+corner_radius_bottom_right = 16
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gm")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 40
+
+[node name="MainLayout" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+
+[node name="HeaderBar" type="HBoxContainer" parent="SafeArea/MainLayout"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="ScoreCard" type="Panel" parent="SafeArea/MainLayout/HeaderBar"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/MainLayout/HeaderBar/ScoreCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="SafeArea/MainLayout/HeaderBar/ScoreCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "SCORE"
+horizontal_alignment = 1
+
+[node name="CurrentScoreLabel" type="Label" parent="SafeArea/MainLayout/HeaderBar/ScoreCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
+[node name="BestCard" type="Panel" parent="SafeArea/MainLayout/HeaderBar"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="VBox" type="VBoxContainer" parent="SafeArea/MainLayout/HeaderBar/BestCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="SafeArea/MainLayout/HeaderBar/BestCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "BEST"
+horizontal_alignment = 1
+
+[node name="BestScoreLabel" type="Label" parent="SafeArea/MainLayout/HeaderBar/BestCard/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="SafeArea/MainLayout/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "↺"
+
+[node name="PauseButton" type="Button" parent="SafeArea/MainLayout/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "II"
+
+[node name="BoardArea" type="CenterContainer" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="BoardPanel" type="Panel" parent="SafeArea/MainLayout/BoardArea"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(620, 620)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_board")
+
+[node name="BoardCenter" type="CenterContainer" parent="SafeArea/MainLayout/BoardArea/BoardPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GridContainer" type="GridContainer" parent="SafeArea/MainLayout/BoardArea/BoardPanel/BoardCenter"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 5
+
+[node name="SelectionLine" type="Line2D" parent="SafeArea/MainLayout/BoardArea/BoardPanel"]
+unique_name_in_owner = true
+width = 12.0
+default_color = Color(1, 1, 1, 0.85)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="MilestoneBanner" type="Panel" parent="SafeArea/MainLayout/BoardArea/BoardPanel"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(340, 60)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 20.0
+offset_right = 170.0
+offset_bottom = 80.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_milestone")
+
+[node name="MilestoneLabel" type="Label" parent="SafeArea/MainLayout/BoardArea/BoardPanel/MilestoneBanner"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "256 REACHED!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseDialog" parent="." instance=ExtResource("2_pd")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="ConfirmationDialog" parent="." instance=ExtResource("3_cd")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="HowToPlayDialog" parent="." instance=ExtResource("4_hpd")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GameOverDialog" parent="." instance=ExtResource("5_god")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
